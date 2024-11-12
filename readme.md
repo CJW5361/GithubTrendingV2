@@ -70,24 +70,59 @@ npm run dev
 - 실시간 대화형 인터페이스
 - 상세 정보 조회 가능
 
+
+```markdown
+
 ## 프로젝트 구조
 
 ```
 project/
 ├── frontend/
 │   ├── src/
+│   │   ├── assets/
+│   │   │   └── main.css
 │   │   ├── components/
+│   │   │   └── ChatBot.vue
+│   │   ├── services/
+│   │   │   └── api.ts
+│   │   ├── stores/
+│   │   │   └── github.ts
 │   │   ├── views/
+│   │   │   ├── HomeView.vue
+│   │   │   └── AboutView.vue
 │   │   └── App.vue
+│   ├── index.html
 │   └── package.json
-└── backend/
-    ├── src/
-    │   ├── main/
-    │   │   ├── java/
-    │   │   └── resources/
-    │   └── test/
-    └── build.gradle
+├── backend/
+│   └── src/
+│       └── main/
+│           └── java/
+│               └── com/
+│                   └── example/
+│                       └── github_trending_backend/
+│                           ├── controller/
+│                           │   └── ChatController.java
+│                           └── service/
+│                               └── ChatService.java
+└── crawler/
+    └── github_crawler.py
 ```
+
+주요 구성요소:
+1. **frontend**: Vue 3 + TypeScript 기반의 프론트엔드
+   - components: 재사용 가능한 Vue 컴포넌트
+   - services: API 통신 관련 로직
+   - stores: Pinia 상태 관리
+   - views: 페이지 컴포넌트
+
+2. **backend**: Spring Boot 기반의 백엔드
+   - controller: API 엔드포인트 정의
+   - service: 비즈니스 로직 처리
+
+3. **crawler**: Python 기반의 GitHub 트렌딩 크롤러
+   - 주기적으로 GitHub 트렌딩 페이지 크롤링
+   - 수집된 데이터를 백엔드 API로 전송
+
 
 
 ## 작성자
