@@ -71,7 +71,7 @@ npm run dev
 - 상세 정보 조회 가능
 
 
-```markdown
+
 
 ## 프로젝트 구조
 
