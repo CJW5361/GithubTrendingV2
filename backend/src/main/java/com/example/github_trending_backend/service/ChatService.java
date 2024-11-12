@@ -76,4 +76,53 @@ public class ChatService {
             return "분석 중 오류가 발생했습니다: " + e.getMessage();
         }
     }
+    
+    public String getAnswer(String repoName, String question) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(apiKey);
+        
+        List<Map<String, Object>> messages = new ArrayList<>();
+        
+        // 시스템 메시지
+        Map<String, Object> systemMessage = new HashMap<>();
+        systemMessage.put("role", "system");
+        systemMessage.put("content", 
+            String.format("당신은 GitHub 저장소 %s에 대한 전문가입니다. " +
+            "사용자의 질문에 대해 명확하고 간단하게 답변해주세요.", repoName));
+        messages.add(systemMessage);
+        
+        // 사용자 질문
+        Map<String, Object> userMessage = new HashMap<>();
+        userMessage.put("role", "user");
+        userMessage.put("content", question);
+        messages.add(userMessage);
+        
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("model", "gpt-3.5-turbo");
+        requestBody.put("messages", messages);
+        requestBody.put("temperature", 0.7);
+        requestBody.put("max_tokens", 300);
+        
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+        
+        try {
+            ResponseEntity<Map> response = restTemplate.exchange(
+                OPENAI_API_URL,
+                HttpMethod.POST,
+                entity,
+                Map.class
+            );
+            
+            Map<String, Object> responseBody = response.getBody();
+            List<Map<String, Object>> choices = (List<Map<String, Object>>) responseBody.get("choices");
+            Map<String, Object> firstChoice = choices.get(0);
+            Map<String, Object> messageResponse = (Map<String, Object>) firstChoice.get("message");
+            return (String) messageResponse.get("content");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "죄송합니다. 질문에 답변하는 중 오류가 발생했습니다.";
+        }
+    }
 } 

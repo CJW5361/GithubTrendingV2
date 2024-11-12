@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="home" style="width: 195.3%;">
+  <div class="home" style="width: 100%;">
     <div class="content-wrapper" style="width: 100%;" >
       <div class="content">
         <!-- 왼쪽: 저장소 목록 -->
@@ -64,10 +64,10 @@ onMounted(() => {
 
 <style scoped>
 .home {
-  min-height: 100vh;
+  height: 100vh;
   background: var(--bg-secondary);
-  padding: 1rem;
-  overflow-x: hidden;
+  overflow: hidden;
+  padding: 0;
 }
 
 .content-wrapper {
@@ -81,6 +81,7 @@ onMounted(() => {
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   height: 100%;
+  padding: 1rem;
 }
 
 .card {
@@ -88,12 +89,27 @@ onMounted(() => {
   border-radius: 12px;
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  height: 100%;
+  overflow: hidden;
 }
 
 .repositories-container {
+  height: 100%;
   overflow-y: auto;
   padding: 1rem;
-  height: 100%;
+}
+
+.repositories-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.repositories-container::-webkit-scrollbar-thumb {
+  background: #4A72FF;
+  border-radius: 3px;
+}
+
+.repositories-container::-webkit-scrollbar-thumb:hover {
+  background: #3558CC;
 }
 
 .repositories {
